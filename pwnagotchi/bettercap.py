@@ -47,7 +47,7 @@ class Client(object):
     # session takes optional argument to pull a sub-dictionary
     #  ex.: "session/wifi", "session/ble"
     def session(self, sess="session"):
-        r = requests.get("%s/%s" % (self.url, sess), auth=self.auth)
+        r = requests.get("%s/%s" % (self.url, sess), auth=self.auth, timeout=60)
         return decode(r)
 
     async def start_websocket(self, consumer):
@@ -107,7 +107,7 @@ class Client(object):
     def run(self, command, verbose_errors=True):
         while True:
             try:
-                r = requests.post("%s/session" % self.url, auth=self.auth, json={'cmd': command})
+                r = requests.post("%s/session" % self.url, auth=self.auth, json={'cmd': command}, timeout=60)
             except requests.exceptions.ConnectionError as e:
                 sleep_time = min_sleep + max_sleep*random.random()
                 logging.warning("[bettercap] can't run my request... connection to the bettercap endpoint failed...")

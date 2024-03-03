@@ -97,7 +97,7 @@ def remove_whitelisted(list_of_handshakes, list_of_whitelisted_strings, valid_on
 
 def download_file(url, destination, chunk_size=128):
     import requests
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=60)
     resp.raise_for_status()
 
     with open(destination, 'wb') as fd:

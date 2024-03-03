@@ -30,7 +30,7 @@ class PawGPS(plugins.Plugin):
             ip = self.options['ip']
 
         try:
-            gps = requests.get('http://' + ip + '/gps.xhtml')
+            gps = requests.get('http://' + ip + '/gps.xhtml', timeout=60)
             try:
                 gps_filename = filename.replace('.pcap', '.paw-gps.json')
                 logging.info("[paw-gps] saving GPS data to %s" % (gps_filename))
