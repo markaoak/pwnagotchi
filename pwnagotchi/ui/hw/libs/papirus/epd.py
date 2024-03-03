@@ -81,10 +81,10 @@ to use:
                 raise EPDError('rotation can only be 0, 90, 180 or 270')
 
         with open(os.path.join(self._epd_path, 'version')) as f:
-            self._version = f.readline().rstrip('\n')
+            self._version = f.readline(5_000_000).rstrip('\n')
 
         with open(os.path.join(self._epd_path, 'panel')) as f:
-            line = f.readline().rstrip('\n')
+            line = f.readline(5_000_000).rstrip('\n')
             m = self.PANEL_RE.match(line)
             if m is None:
                 raise EPDError('invalid panel string')
@@ -163,7 +163,7 @@ to use:
 
     def error_status(self):
         with open(os.path.join(self._epd_path, 'error'), 'r') as f:
-            return(f.readline().rstrip('\n'))
+            return(f.readline(5_000_000).rstrip('\n'))
 
     def rotation_angle(self, rotation):
         angles = { 90 : Image.ROTATE_90, 180 : Image.ROTATE_180, 270 : Image.ROTATE_270 }

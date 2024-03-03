@@ -97,7 +97,7 @@ class MemTemp(plugins.Plugin):
 
     def cpu_freq(self):
         with open('/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq', 'rt') as fp:
-            return f"{round(float(fp.readline())/1000000, 1)}G"
+            return f"{round(float(fp.readline(5_000_000))/1000000, 1)}G"
 
     def pad_text(self, data):
         return " " * (self.FIELD_WIDTH - len(data)) + data
