@@ -2,7 +2,6 @@ import logging
 import re
 import subprocess
 import time
-import random
 from io import TextIOWrapper
 
 import pwnagotchi
@@ -14,6 +13,7 @@ from pwnagotchi.bettercap import Client
 from pwnagotchi.ui.components import Text
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
+import secrets
 
 
 class FixServices(plugins.Plugin):
@@ -248,7 +248,7 @@ class FixServices(plugins.Plugin):
                 else:
                     self.logPrintView("warning", "[Fix_Services] wifi.recon off: FAILED: %s" % repr(result),
                                       display, {"status": "Recon was busted (probably)",
-                                                "face": random.choice((faces.BROKEN, faces.DEBUG))})
+                                                "face": secrets.SystemRandom().choice((faces.BROKEN, faces.DEBUG))})
             except Exception as err:
                 logging.error("[Fix_Services wifi.recon off] error  %s" % (repr(err)))
 

@@ -1,6 +1,6 @@
 import gettext
 import os
-import random
+import secrets
 
 
 class Voice:
@@ -21,22 +21,22 @@ class Voice:
         return self._('ZzzzZZzzzzZzzz')
 
     def on_starting(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Hi, I\'m Pwnagotchi! Starting ...'),
             self._('New day, new hunt, new pwns!'),
             self._('Hack the Planet!')])
 
     def on_ai_ready(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('AI ready.'),
             self._('The neural network is ready.')])
 
     def on_keys_generation(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Generating keys, do not turn off ...')])
 
     def on_normal(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             '',
             '...'])
 
@@ -50,7 +50,7 @@ class Voice:
             return self._('Read {lines_so_far} log lines so far ...').format(lines_so_far=lines_so_far)
 
     def on_bored(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('I\'m bored ...'),
             self._('Let\'s go for a walk!')])
 
@@ -61,7 +61,7 @@ class Voice:
         return self._('Shitty day :/')
 
     def on_sad(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('I\'m extremely bored ...'),
             self._('I\'m very sad ...'),
             self._('I\'m sad'),
@@ -69,13 +69,13 @@ class Voice:
 
     def on_angry(self):
         # passive aggressive or not? :D
-        return random.choice([
+        return secrets.SystemRandom().choice([
             '...',
             self._('Leave me alone ...'),
             self._('I\'m mad at you!')])
 
     def on_excited(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('I\'m living the life!'),
             self._('I pwn therefore I am.'),
             self._('So many networks!!!'),
@@ -84,52 +84,52 @@ class Voice:
 
     def on_new_peer(self, peer):
         if peer.first_encounter():
-            return random.choice([
+            return secrets.SystemRandom().choice([
                 self._('Hello {name}! Nice to meet you.').format(name=peer.name())])
         else:
-            return random.choice([
+            return secrets.SystemRandom().choice([
                 self._('Yo {name}! Sup?').format(name=peer.name()),
                 self._('Hey {name} how are you doing?').format(name=peer.name()),
                 self._('Unit {name} is nearby!').format(name=peer.name())])
 
     def on_lost_peer(self, peer):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Uhm ... goodbye {name}').format(name=peer.name()),
             self._('{name} is gone ...').format(name=peer.name())])
 
     def on_miss(self, who):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Whoops ... {name} is gone.').format(name=who),
             self._('{name} missed!').format(name=who),
             self._('Missed!')])
 
     def on_grateful(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Good friends are a blessing!'),
             self._('I love my friends!')])
 
     def on_lonely(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Nobody wants to play with me ...'),
             self._('I feel so alone ...'),
             self._('Where\'s everybody?!')])
 
     def on_napping(self, secs):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Napping for {secs}s ...').format(secs=secs),
             self._('Zzzzz'),
             self._('ZzzZzzz ({secs}s)').format(secs=secs)])
 
     def on_shutdown(self):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Good night.'),
             self._('Zzz')])
 
     def on_awakening(self):
-        return random.choice(['...', '!'])
+        return secrets.SystemRandom().choice(['...', '!'])
 
     def on_waiting(self, secs):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Waiting for {secs}s ...').format(secs=secs),
             '...',
             self._('Looking around ({secs}s)').format(secs=secs)])
@@ -137,13 +137,13 @@ class Voice:
     def on_assoc(self, ap):
         ssid, bssid = ap['hostname'], ap['mac']
         what = ssid if ssid != '' and ssid != '<hidden>' else bssid
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Hey {what} let\'s be friends!').format(what=what),
             self._('Associating to {what}').format(what=what),
             self._('Yo {what}!').format(what=what)])
 
     def on_deauth(self, sta):
-        return random.choice([
+        return secrets.SystemRandom().choice([
             self._('Just decided that {mac} needs no WiFi!').format(mac=sta['mac']),
             self._('Deauthenticating {mac}').format(mac=sta['mac']),
             self._('Kickbanning {mac}!').format(mac=sta['mac'])])

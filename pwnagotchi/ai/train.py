@@ -1,13 +1,13 @@
 import _thread
 import threading
 import time
-import random
 import os
 import json
 import logging
 
 import pwnagotchi.plugins as plugins
 import pwnagotchi.ai as ai
+import secrets
 
 
 class Stats(object):
@@ -173,7 +173,7 @@ class AsyncTrainer(object):
             while True:
                 self._model.env.render()
                 # enter in training mode?
-                if random.random() > self._config['ai']['laziness']:
+                if secrets.SystemRandom().random() > self._config['ai']['laziness']:
                     logging.info("[AI] learning for %d epochs ..." % epochs_per_episode)
                     try:
                         self.set_training(True, epochs_per_episode)

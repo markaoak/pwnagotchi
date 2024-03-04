@@ -1,6 +1,5 @@
 import _thread
 import logging
-import random
 import time
 from threading import Lock
 
@@ -15,6 +14,7 @@ import pwnagotchi.utils as utils
 from pwnagotchi.ui.components import *
 from pwnagotchi.ui.state import State
 from pwnagotchi.voice import Voice
+import secrets
 
 WHITE = 0x00
 BLACK = 0xFF
@@ -213,13 +213,13 @@ class View(object):
         face = ''
         # first time they met, neutral mood
         if peer.first_encounter():
-            face = random.choice((faces.AWAKE, faces.COOL))
+            face = secrets.SystemRandom().choice((faces.AWAKE, faces.COOL))
         # a good friend, positive expression
         elif peer.is_good_friend(self._config):
-            face = random.choice((faces.MOTIVATED, faces.FRIEND, faces.HAPPY))
+            face = secrets.SystemRandom().choice((faces.MOTIVATED, faces.FRIEND, faces.HAPPY))
         # normal friend, neutral-positive
         else:
-            face = random.choice((faces.EXCITED, faces.HAPPY, faces.SMART))
+            face = secrets.SystemRandom().choice((faces.EXCITED, faces.HAPPY, faces.SMART))
 
         self.set('face', face)
         self.set('status', self._voice.on_new_peer(peer))
@@ -346,7 +346,7 @@ class View(object):
         time.sleep(5.0)
 
     def on_uploading(self, to):
-        self.set('face', random.choice((faces.UPLOAD, faces.UPLOAD1, faces.UPLOAD2)))
+        self.set('face', secrets.SystemRandom().choice((faces.UPLOAD, faces.UPLOAD1, faces.UPLOAD2)))
         self.set('status', self._voice.on_uploading(to))
         self.update(force=True)
 
