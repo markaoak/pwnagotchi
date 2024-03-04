@@ -266,7 +266,7 @@ class Logtail(plugins.Plugin):
                 with open(self.config['main']['log']['path']) as f:
                     yield ''.join(f.readlines()[-self.options.get('max-lines', 4096):])
                     while True:
-                        yield f.readline()
+                        yield f.readline(5_000_000)
 
             return Response(generate(), mimetype='text/plain')
 
