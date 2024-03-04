@@ -266,7 +266,7 @@ class SystemdUnitWrapper:
 
     @staticmethod
     def _action_on_unit(action, unit):
-        process = subprocess.Popen(f"systemctl {action} {unit}", shell=True, stdin=None,
+        process = subprocess.Popen(f"systemctl {action} {unit}", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
         if process.returncode > 0:
@@ -278,7 +278,7 @@ class SystemdUnitWrapper:
         """
         Calls systemctl daemon-reload
         """
-        process = subprocess.Popen("systemctl daemon-reload", shell=True, stdin=None,
+        process = subprocess.Popen("systemctl daemon-reload", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
         if process.returncode > 0:
@@ -361,7 +361,7 @@ class IfaceWrapper:
         """
         Set the netmask
         """
-        process = subprocess.Popen(f"ip addr add {addr} dev {self.iface}", shell=True, stdin=None,
+        process = subprocess.Popen(f"ip addr add {addr} dev {self.iface}", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
 
@@ -372,7 +372,7 @@ class IfaceWrapper:
 
     @staticmethod
     def set_route(gateway, device):
-        process = subprocess.Popen(f"ip route replace default via {gateway} dev {device}", shell=True, stdin=None,
+        process = subprocess.Popen(f"ip route replace default via {gateway} dev {device}", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
 
