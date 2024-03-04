@@ -25,7 +25,7 @@ def check(version, repo, native=True):
         'arch': platform.machine()
     }
 
-    resp = requests.get("https://api.github.com/repos/%s/releases/latest" % repo)
+    resp = requests.get("https://api.github.com/repos/%s/releases/latest" % repo, timeout=60)
     latest = resp.json()
     info['available'] = latest_ver = latest['tag_name'].replace('v', '')
     is_armhf = info['arch'].startswith('arm')
