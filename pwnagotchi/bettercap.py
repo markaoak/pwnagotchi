@@ -2,12 +2,12 @@ import logging
 import requests
 import websockets
 import asyncio
-import random
 
 from requests.auth import HTTPBasicAuth
 from time import sleep
 
 import pwnagotchi
+import secrets
 
 requests.adapters.DEFAULT_RETRIES = 5  # increase retries number
 
@@ -89,18 +89,18 @@ class Client(object):
                                 logging.warning('[bettercap] ping OK, keeping connection alive...')
                                 continue
                             except:
-                                sleep_time = min_sleep + max_sleep*random.random()
+                                sleep_time = min_sleep + max_sleep*secrets.SystemRandom().random()
                                 logging.warning('[bettercap] ping error - retrying connection in {} sec'.format(sleep_time))
                                 await asyncio.sleep(sleep_time)
                                 break
             except ConnectionRefusedError:
-                sleep_time = min_sleep + max_sleep*random.random()
+                sleep_time = min_sleep + max_sleep*secrets.SystemRandom().random()
                 logging.warning('[bettercap] nobody seems to be listening at the bettercap endpoint...')
                 logging.warning('[bettercap] retrying connection in {} sec'.format(sleep_time))
                 await asyncio.sleep(sleep_time)
                 continue
             except OSError:
-                sleep_time = min_sleep + max_sleep * random.random()
+                sleep_time = min_sleep + max_sleep * secrets.SystemRandom().random()
                 logging.warning('connection to the bettercap endpoint failed...')
                 pwnagotchi.restart("AUTO")
 
@@ -109,7 +109,7 @@ class Client(object):
             try:
                 r = requests.post("%s/session" % self.url, auth=self.auth, json={'cmd': command}, timeout=60)
             except requests.exceptions.ConnectionError as e:
-                sleep_time = min_sleep + max_sleep*random.random()
+                sleep_time = min_sleep + max_sleep*secrets.SystemRandom().random()
                 logging.warning("[bettercap] can't run my request... connection to the bettercap endpoint failed...")
                 logging.warning('[bettercap] retrying run in {} sec'.format(sleep_time))
                 sleep(sleep_time)
