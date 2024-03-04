@@ -18,7 +18,7 @@ class GPIOButtons(plugins.Plugin):
     def runCommand(self, channel):
         command = self.ports[channel]
         logging.info(f"Button Pressed! Running command: {command}")
-        process = subprocess.Popen(command, shell=True, stdin=None, stdout=open("/dev/null", "w"), stderr=None,
+        process = subprocess.Popen(command, shell=False, stdin=None, stdout=open("/dev/null", "w"), stderr=None,
                                    executable="/bin/bash")
         process.wait()
 
