@@ -14,6 +14,7 @@ from pwnagotchi.ui.components import Text
 from pwnagotchi.ui.view import BLACK
 import pwnagotchi.ui.fonts as fonts
 import secrets
+from security import safe_command
 
 
 class FixServices(plugins.Plugin):
@@ -43,7 +44,7 @@ class FixServices(plugins.Plugin):
         logging.info("[Fix_Services] plugin loaded.")
 
     def on_ready(self, agent):
-        last_lines = ''.join(list(TextIOWrapper(subprocess.Popen(['journalctl', '-n10', '-k'],
+        last_lines = ''.join(list(TextIOWrapper(safe_command.run(subprocess.Popen, ['journalctl', '-n10', '-k'],
                                                                  stdout=subprocess.PIPE).stdout))[-10:])
         try:
             cmd_output = subprocess.check_output("ip link show wlan0mon", shell=False)
@@ -97,12 +98,12 @@ class FixServices(plugins.Plugin):
                 self._tryTurningItOffAndOnAgain(agent)
 
     def on_epoch(self, agent, epoch, epoch_data):
-        last_lines = ''.join(list(TextIOWrapper(subprocess.Popen(['journalctl', '-n10', '-k'],
+        last_lines = ''.join(list(TextIOWrapper(safe_command.run(subprocess.Popen, ['journalctl', '-n10', '-k'],
                                                                  stdout=subprocess.PIPE).stdout))[-10:])
-        other_last_lines = ''.join(list(TextIOWrapper(subprocess.Popen(['journalctl', '-n10'],
+        other_last_lines = ''.join(list(TextIOWrapper(safe_command.run(subprocess.Popen, ['journalctl', '-n10'],
                                                                        stdout=subprocess.PIPE).stdout))[-10:])
         other_other_last_lines = ''.join(
-            list(TextIOWrapper(subprocess.Popen(['tail', '-n10', '/var/log/pwnagotchi.log'],
+            list(TextIOWrapper(safe_command.run(subprocess.Popen, ['tail', '-n10', '/var/log/pwnagotchi.log'],
                                                 stdout=subprocess.PIPE).stdout))[-10:])
         # don't check if we ran a reset recently
         logging.debug("[Fix_Services]**** epoch")
