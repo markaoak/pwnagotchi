@@ -124,7 +124,7 @@ class View(object):
                 self.set('name', name.rstrip('█').strip() if '█' in name else (name + ' █'))
                 self.update()
             except Exception as e:
-                logging.warning("non fatal error while updating view: %s" % e)
+                logging.warning("non fatal error while updating view: %s", e)
 
             time.sleep(delay)
 

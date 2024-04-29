@@ -45,7 +45,7 @@ class Server:
             Handler(self._config, self._agent, app)
 
             formatServerIpAddress = '[::]' if self._address == '::' else self._address
-            logging.info("web ui available at http://%s:%d/" % (formatServerIpAddress, self._port))
+            logging.info("web ui available at http://%s:%d/", formatServerIpAddress, self._port)
 
             app.run(host=self._address, port=self._port, debug=False)
         else:

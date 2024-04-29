@@ -149,7 +149,7 @@ class LastSession(object):
                         else:
                             cache[pubkey].adv['pwnd_tot'] = pwnd_tot
             except Exception as e:
-                logging.error("error parsing line '%s': %s" % (line, e))
+                logging.error("error parsing line '%s': %s", line, e)
 
         if started_at is not None:
             self.duration = stopped_at - started_at
@@ -205,7 +205,7 @@ class LastSession(object):
             self.last_session_id = hashlib.md5(lines[0].encode()).hexdigest()
             self.last_saved_session_id = self._get_last_saved_session_id()
 
-            logging.debug("parsing last session logs (%d lines) ..." % len(lines))
+            logging.debug("parsing last session logs (%d lines) ...", len(lines))
 
             self._parse_stats()
         self.parsed = True

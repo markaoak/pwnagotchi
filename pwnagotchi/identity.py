@@ -26,7 +26,7 @@ class KeyPair(object):
             # first time, generate new keys
             if not os.path.exists(self.priv_path) or not os.path.exists(self.pub_path):
                 self._view.on_keys_generation()
-                logging.info("generating %s ..." % self.priv_path)
+                logging.info("generating %s ...", self.priv_path)
                 os.system("pwngrid -generate -keys '%s'" % self.path)
 
             # load keys: they might be corrupted if the unit has been turned off during the generation, in this case

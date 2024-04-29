@@ -176,7 +176,7 @@ class Handler:
         if not grid.is_connected():
             abort(200)
 
-        logging.info("marking message %d as %s" % (int(id), mark))
+        logging.info("marking message %d as %s", int(id), mark)
         grid.mark_message(id, mark)
         return redirect("/inbox")
 

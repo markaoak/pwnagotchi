@@ -96,7 +96,7 @@ def update_data(last_session):
         'opwngrid': subprocess.getoutput("pwngrid -version")
     }
 
-    logging.debug("updating grid data: %s" % data)
+    logging.debug("updating grid data: %s", data)
 
     call("/data", data)
 

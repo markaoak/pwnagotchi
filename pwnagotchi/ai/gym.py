@@ -122,7 +122,7 @@ class Environment(gym.Env):
     def _render_histogram(self, hist):
         for ch in range(featurizer.histogram_size):
             if hist[ch]:
-                logging.info("      CH %d: %s" % (ch + 1, hist[ch]))
+                logging.info("      CH %d: %s", ch + 1, hist[ch])
 
     def render(self, mode='human', close=False, force=False):
         # when using a vectorialized environment, render gets called twice
@@ -135,14 +135,14 @@ class Environment(gym.Env):
 
         self._last_render = self._epoch_num
 
-        logging.info("[AI] --- training epoch %d/%d ---" % (self._epoch_num, self._agent.training_epochs()))
-        logging.info("[AI] REWARD: %f" % self.last['reward'])
+        logging.info("[AI] --- training epoch %d/%d ---", self._epoch_num, self._agent.training_epochs())
+        logging.info("[AI] REWARD: %f", self.last['reward'])
 
         logging.debug(
-            "[AI] policy: %s" % ', '.join("%s:%s" % (name, value) for name, value in self.last['params'].items()))
+            "[AI] policy: %s", ', '.join("%s:%s" % (name, value) for name, value in self.last['params'].items()))
 
         logging.info("[AI] observation:")
         for name, value in self.last['state'].items():
             if 'histogram' in name:
-                logging.info("    %s" % name.replace('_histogram', ''))
+                logging.info("    %s", name.replace('_histogram', ''))
                 self._render_histogram(value)

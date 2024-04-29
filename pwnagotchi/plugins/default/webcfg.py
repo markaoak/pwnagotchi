@@ -543,14 +543,14 @@ class WebConfig(plugins.Plugin):
                 try:
                     self.config = merge_config(request.get_json(), self.config)
                     pwnagotchi.config = merge_config(request.get_json(), pwnagotchi.config)
-                    logging.debug("PWNAGOTCHI CONFIG:\n%s" % repr(pwnagotchi.config))
+                    logging.debug("PWNAGOTCHI CONFIG:\n%s", repr(pwnagotchi.config))
                     if self._agent:
                         self._agent._config = merge_config(request.get_json(), self._agent._config)
-                        logging.debug("    Agent CONFIG:\n%s" % repr(self._agent._config))
-                    logging.debug("   Updated CONFIG:\n%s" % request.get_json())
+                        logging.debug("    Agent CONFIG:\n%s", repr(self._agent._config))
+                    logging.debug("   Updated CONFIG:\n%s", request.get_json())
                     save_config(request.get_json(), '/etc/pwnagotchi/config.toml')  # test
                     return "success"
                 except Exception as ex:
-                    logging.error("[webcfg mergesave] %s" % ex)
+                    logging.error("[webcfg mergesave] %s", ex)
                     return "config error", 500
         abort(404)

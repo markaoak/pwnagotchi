@@ -172,7 +172,7 @@ class EPD:
             image_temp = image.rotate(90, expand=True)
         else:
             logger.warning(
-                "Invalid image dimensions: %d x %d, expected %d x %d" % (imwidth, imheight, self.width, self.height))
+                "Invalid image dimensions: %d x %d, expected %d x %d", imwidth, imheight, self.width, self.height)
 
         # Convert the soruce image to the 4 colors, dithering if needed
         image_4color = image_temp.convert("RGB").quantize(palette=pal_image)

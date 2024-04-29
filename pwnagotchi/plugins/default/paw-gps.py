@@ -33,7 +33,7 @@ class PawGPS(plugins.Plugin):
             gps = requests.get('http://' + ip + '/gps.xhtml', timeout=60)
             try:
                 gps_filename = filename.replace('.pcap', '.paw-gps.json')
-                logging.info("[paw-gps] saving GPS data to %s" % (gps_filename))
+                logging.info("[paw-gps] saving GPS data to %s", (gps_filename))
                 with open(gps_filename, 'w+t') as f:
                     f.write(gps.text)
             except Exception as error:

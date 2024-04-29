@@ -21,7 +21,7 @@ class Peer(object):
             self.first_seen = parse_rfc3339(obj.get('detected_at', just_met))
             self.prev_seen = parse_rfc3339(obj.get('prev_seen_at', just_met))
         except Exception as e:
-            logging.warning("error while parsing peer timestamps: %s" % e)
+            logging.warning("error while parsing peer timestamps: %s", e)
             logging.debug(e, exc_info=True)
             self.first_met = just_met
             self.first_seen = just_met
@@ -36,10 +36,10 @@ class Peer(object):
 
     def update(self, new):
         if self.name() != new.name():
-            logging.info("peer %s changed name: %s -> %s" % (self.full_name(), self.name(), new.name()))
+            logging.info("peer %s changed name: %s -> %s", self.full_name(), self.name(), new.name())
 
         if self.session_id != new.session_id:
-            logging.info("peer %s changed session id: %s -> %s" % (self.full_name(), self.session_id, new.session_id))
+            logging.info("peer %s changed session id: %s -> %s", self.full_name(), self.session_id, new.session_id)
 
         self.adv = new.adv
         self.rssi = new.rssi

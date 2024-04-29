@@ -176,7 +176,7 @@ class GdriveSync(plugins.Plugin):
             return
         with self.lock:
             if self.status.newer_then_hours(self.options['interval']):
-                logging.debug("[update] last check happened less than %d hours ago" % self.options['interval'])
+                logging.debug("[update] last check happened less than %d hours ago", self.options['interval'])
                 return
 
             logging.info("[gdrivesync] new handshake captured, backing up to gdrive")

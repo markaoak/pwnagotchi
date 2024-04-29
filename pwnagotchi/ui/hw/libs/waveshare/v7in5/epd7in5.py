@@ -137,7 +137,7 @@ class EPD:
             img = img.rotate(90, expand=True).convert('1')
             imwidth, imheight = img.size
         else:
-            logger.warning("Wrong image dimensions: must be " + str(self.width) + "x" + str(self.height))
+            logger.warning("Wrong image dimensions: must be %sx%s", str(self.width), str(self.height))
             # return a blank buffer
             return buf
 

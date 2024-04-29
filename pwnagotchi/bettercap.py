@@ -24,7 +24,7 @@ def decode(r, verbose_errors=True):
         return r.json()
     except Exception as e:
         if r.status_code == 200:
-            logging.error("error while decoding json: error='%s' resp='%s'" % (e, r.text))
+            logging.error("error while decoding json: error='%s' resp='%s'", e, r.text)
         else:
             err = "error %d: %s" % (r.status_code, r.text.strip())
             if verbose_errors:

@@ -21,7 +21,7 @@ class Plugin:
 
         plugin_name = cls.__module__.split('.')[0]
         plugin_instance = cls()
-        logging.debug("loaded plugin %s as %s" % (plugin_name, plugin_instance))
+        logging.debug("loaded plugin %s as %s", plugin_name, plugin_instance)
         loaded[plugin_name] = plugin_instance
 
         for attr_name in plugin_instance.__dir__():
@@ -98,12 +98,12 @@ def one(plugin_name, event_name, *args, **kwargs):
                 locked_cb_args = (lock_name, callback, *args, *kwargs)
                 _thread.start_new_thread(locked_cb, locked_cb_args)
             except Exception as e:
-                logging.error("error while running %s.%s : %s" % (plugin_name, cb_name, e))
+                logging.error("error while running %s.%s : %s", plugin_name, cb_name, e)
                 logging.error(e, exc_info=True)
 
 
 def load_from_file(filename):
-    logging.debug("loading %s" % filename)
+    logging.debug("loading %s", filename)
     plugin_name = os.path.basename(filename.replace(".py", ""))
     spec = importlib.util.spec_from_file_location(plugin_name, filename)
     instance = importlib.util.module_from_spec(spec)
@@ -113,7 +113,7 @@ def load_from_file(filename):
 
 def load_from_path(path, enabled=()):
     global loaded, database
-    logging.debug("loading plugins from %s - enabled: %s" % (path, enabled))
+    logging.debug("loading plugins from %s - enabled: %s", path, enabled)
     for filename in glob.glob(os.path.join(path, "*.py")):
         plugin_name = os.path.basename(filename.replace(".py", ""))
         database[plugin_name] = filename
@@ -121,7 +121,7 @@ def load_from_path(path, enabled=()):
             try:
                 load_from_file(filename)
             except Exception as e:
-                logging.warning("error while loading %s: %s" % (filename, e))
+                logging.warning("error while loading %s: %s", filename, e)
                 logging.debug(e, exc_info=True)
 
     return loaded

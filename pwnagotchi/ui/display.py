@@ -244,7 +244,7 @@ class Display(View):
             if self._config['ui']['web']['on_frame'] != '':
                 os.system(self._config['ui']['web']['on_frame'])
         except Exception as e:
-            logging.error("%s" % e)
+            logging.error("%s", e)
 
         if self._enabled:
             self._canvas = (img if self._rotation == 0 else img.rotate(self._rotation))

@@ -15,7 +15,7 @@ from pwnagotchi.utils import StatusFile, parse_version as version_to_tuple
 
 
 def check(version, repo, native=True):
-    logging.debug("checking remote version for %s, local is %s" % (repo, version))
+    logging.debug("checking remote version for %s, local is %s", repo, version)
     info = {
         'repo': repo,
         'current': version,
@@ -60,7 +60,7 @@ def check(version, repo, native=True):
 def make_path_for(name):
     path = os.path.join("/usr/local/src/", name)
     if os.path.exists(path):
-        logging.debug("[update] deleting %s" % path)
+        logging.debug("[update] deleting %s", path)
         shutil.rmtree(path, ignore_errors=True, onerror=None)
     os.makedirs(path)
     return path
@@ -70,12 +70,12 @@ def download_and_unzip(name, path, display, update):
     target = "%s_%s.zip" % (name, update['available'])
     target_path = os.path.join(path, target)
 
-    logging.info("[update] downloading %s to %s ..." % (update['url'], target_path))
+    logging.info("[update] downloading %s to %s ...", update['url'], target_path)
     display.update(force=True, new_data={'status': 'Downloading %s %s ...' % (name, update['available'])})
 
     os.system('wget -q "%s" -O "%s"' % (update['url'], target_path))
 
-    logging.info("[update] extracting %s to %s ..." % (target_path, path))
+    logging.info("[update] extracting %s to %s ...", target_path, path)
     display.update(force=True, new_data={'status': 'Extracting %s %s ...' % (name, update['available'])})
 
     os.system('unzip "%s" -d "%s"' % (target_path, path))
@@ -93,7 +93,7 @@ def verify(name, path, source_path, display, update):
     else:
         checksum = checksums[0]
 
-        logging.info("[update] verifying %s for %s ..." % (checksum, source_path))
+        logging.info("[update] verifying %s for %s ...", checksum, source_path)
 
         with open(checksum, 'rt') as fp:
             expected = fp.read().split('=')[1].strip().lower()
@@ -101,7 +101,7 @@ def verify(name, path, source_path, display, update):
         real = subprocess.getoutput('sha256sum "%s"' % source_path).split(' ')[0].strip().lower()
 
         if real != expected:
-            logging.warning("[update] checksum mismatch for %s: expected=%s got=%s" % (source_path, expected, real))
+            logging.warning("[update] checksum mismatch for %s: expected=%s got=%s", source_path, expected, real)
             return False
 
     return True
@@ -119,20 +119,20 @@ def install(display, update):
     if not verify(name, path, source_path, display, update):
         return False
 
-    logging.info("[update] installing %s ..." % name)
+    logging.info("[update] installing %s ...", name)
     display.update(force=True, new_data={'status': 'Installing %s %s ...' % (name, update['available'])})
 
     if update['native']:
         dest_path = subprocess.getoutput("which %s" % name)
         if dest_path == "":
-            logging.warning("[update] can't find path for %s" % name)
+            logging.warning("[update] can't find path for %s", name)
             return False
 
-        logging.info("[update] stopping %s ..." % update['service'])
+        logging.info("[update] stopping %s ...", update['service'])
         os.system("service %s stop" % update['service'])
         shutil.move(source_path, dest_path)
         os.chmod("/usr/local/bin/%s" % name, 0o755)
-        logging.info("[update] restarting %s ..." % update['service'])
+        logging.info("[update] restarting %s ...", update['service'])
         os.system("service %s start" % update['service'])
     else:
         if not os.path.exists(source_path):
@@ -177,13 +177,13 @@ class AutoUpdate(plugins.Plugin):
             return
 
         with self.lock:
-            logging.debug("[update] internet connectivity is available (ready %s)" % self.ready)
+            logging.debug("[update] internet connectivity is available (ready %s)", self.ready)
 
             if not self.ready:
                 return
 
             if self.status.newer_then_hours(self.options['interval']):
-                logging.debug("[update] last check happened less than %d hours ago" % self.options['interval'])
+                logging.debug("[update] last check happened less than %d hours ago", self.options['interval'])
                 return
 
             logging.info("[update] checking for updates ...")
@@ -206,8 +206,7 @@ class AutoUpdate(plugins.Plugin):
                     if info['url'] is not None:
 
                         logging.warning(
-                            "update for %s available (local version is '%s'): %s" % (
-                                repo, info['current'], info['url']))
+                            "update for %s available (local version is '%s'): %s", repo, info['current'], info['url'])
                         info['service'] = svc_name
                         to_install.append(info)
 
@@ -233,6 +232,6 @@ class AutoUpdate(plugins.Plugin):
                     os.system("service pwnagotchi restart")
 
             except Exception as e:
-                logging.error("[update] %s" % e)
+                logging.error("[update] %s", e)
 
             display.update(force=True, new_data={'status': prev_status if prev_status is not None else ''})

@@ -23,7 +23,7 @@ class Example(plugins.Plugin):
 
     # called when the plugin is loaded
     def on_loaded(self):
-        logging.warning("WARNING: this plugin should be disabled! options = " % self.options)
+        logging.warning("WARNING: this plugin should be disabled! options = ", self.options)
 
     # called before the plugin is unloaded
     def on_unload(self, ui):

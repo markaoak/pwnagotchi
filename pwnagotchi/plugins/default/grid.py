@@ -12,7 +12,7 @@ from threading import Lock
 
 
 def parse_pcap(filename):
-    logging.info("grid: parsing %s ..." % filename)
+    logging.info("grid: parsing %s ...", filename)
 
     net_id = os.path.basename(filename).replace('.pcap', '')
 
@@ -38,7 +38,7 @@ def parse_pcap(filename):
     try:
         info = extract_from_pcap(filename, [WifiInfo.BSSID, WifiInfo.ESSID])
     except Exception as e:
-        logging.error("grid: %s" % e)
+        logging.error("grid: %s", e)
 
     return info[WifiInfo.ESSID], info[WifiInfo.BSSID]
 
@@ -83,7 +83,7 @@ class Grid(plugins.Plugin):
 
         if self.unread_messages:
             plugins.on('unread_inbox', self.unread_messages)
-            logging.debug("[grid] unread:%d total:%d" % (self.unread_messages, self.total_messages))
+            logging.debug("[grid] unread:%d total:%d", self.unread_messages, self.total_messages)
             agent.view().on_unread_messages(self.unread_messages, self.total_messages)
 
     def check_handshakes(self, agent):
@@ -98,22 +98,22 @@ class Grid(plugins.Plugin):
 
         if num_new > 0:
             if self.options['report']:
-                logging.info("grid: %d new networks to report" % num_new)
-                logging.debug("self.options: %s" % self.options)
-                logging.debug("  exclude: %s" % config['main']['whitelist'])
+                logging.info("grid: %d new networks to report", num_new)
+                logging.debug("self.options: %s", self.options)
+                logging.debug("  exclude: %s", config['main']['whitelist'])
 
                 for pcap_file in pcap_files:
                     net_id = os.path.basename(pcap_file).replace('.pcap', '')
                     if net_id not in reported:
                         if self.is_excluded(net_id, agent):
-                            logging.debug("skipping %s due to exclusion filter" % pcap_file)
+                            logging.debug("skipping %s due to exclusion filter", pcap_file)
                             self.set_reported(reported, net_id)
                             continue
 
                         essid, bssid = parse_pcap(pcap_file)
                         if bssid:
                             if self.is_excluded(essid, agent) or self.is_excluded(bssid, agent):
-                                logging.debug("not reporting %s due to exclusion filter" % pcap_file)
+                                logging.debug("not reporting %s due to exclusion filter", pcap_file)
                                 self.set_reported(reported, net_id)
                             else:
                                 if grid.report_ap(essid, bssid):
@@ -134,18 +134,18 @@ class Grid(plugins.Plugin):
             try:
                 grid.update_data(agent.last_session)
             except Exception as e:
-                logging.error("error connecting to the pwngrid-peer service: %s" % e)
+                logging.error("error connecting to the pwngrid-peer service: %s", e)
                 logging.debug(e, exc_info=True)
                 return
 
             try:
                 self.check_inbox(agent)
             except Exception as e:
-                logging.error("[grid] error while checking inbox: %s" % e)
+                logging.error("[grid] error while checking inbox: %s", e)
                 logging.debug(e, exc_info=True)
 
             try:
                 self.check_handshakes(agent)
             except Exception as e:
-                logging.error("[grid] error while checking pcaps: %s" % e)
+                logging.error("[grid] error while checking pcaps: %s", e)
                 logging.debug(e, exc_info=True)

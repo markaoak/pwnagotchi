@@ -311,30 +311,30 @@ class Agent(Client, Automata, AsyncAdvertiser, AsyncTrainer):
             try:
                 s = self.session()
             except Exception as err:
-                logging.error("[agent:_fetch_stats] self.session: %s" % repr(err))
+                logging.error("[agent:_fetch_stats] self.session: %s", repr(err))
 
             try:
                 self._update_uptime(s)
             except Exception as err:
-                logging.error("[agent:_fetch_stats] self.update_uptimes: %s" % repr(err))
+                logging.error("[agent:_fetch_stats] self.update_uptimes: %s", repr(err))
 
             try:
                 self._update_advertisement(s)
             except Exception as err:
-                logging.error("[agent:_fetch_stats] self.update_advertisements: %s" % repr(err))
+                logging.error("[agent:_fetch_stats] self.update_advertisements: %s", repr(err))
 
             try:
                 self._update_peers()
             except Exception as err:
-                logging.error("[agent:_fetch_stats] self.update_peers: %s" % repr(err))
+                logging.error("[agent:_fetch_stats] self.update_peers: %s", repr(err))
             try:
                 self._update_counters()
             except Exception as err:
-                logging.error("[agent:_fetch_stats] self.update_counters: %s" % repr(err))
+                logging.error("[agent:_fetch_stats] self.update_counters: %s", repr(err))
             try:
                 self._update_handshakes(0)
             except Exception as err:
-                logging.error("[agent:_fetch_stats] self.update_handshakes: %s" % repr(err))
+                logging.error("[agent:_fetch_stats] self.update_handshakes: %s", repr(err))
 
             time.sleep(5)
 
@@ -346,7 +346,7 @@ class Agent(Client, Automata, AsyncAdvertiser, AsyncTrainer):
         try:
             plugins.on('bcap_%s' % re.sub(r"[^a-z0-9_]+", "_", jmsg['tag'].lower()), self, jmsg)
         except Exception as err:
-            logging.error("Processing event: %s" % err)
+            logging.error("Processing event: %s", err)
 
         if jmsg['tag'] == 'wifi.client.handshake':
             filename = jmsg['data']['file']
