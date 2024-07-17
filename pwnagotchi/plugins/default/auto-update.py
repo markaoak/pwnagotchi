@@ -2,7 +2,6 @@ import os
 import re
 import logging
 import subprocess
-import requests
 import platform
 import shutil
 import glob
@@ -12,6 +11,7 @@ import time
 import pwnagotchi
 import pwnagotchi.plugins as plugins
 from pwnagotchi.utils import StatusFile, parse_version as version_to_tuple
+from security import safe_requests
 
 
 def check(version, repo, native=True):
@@ -25,7 +25,7 @@ def check(version, repo, native=True):
         'arch': platform.machine()
     }
 
-    resp = requests.get("https://api.github.com/repos/%s/releases/latest" % repo, timeout=60)
+    resp = safe_requests.get("https://api.github.com/repos/%s/releases/latest" % repo, timeout=60)
     latest = resp.json()
     info['available'] = latest_ver = latest['tag_name'].replace('v', '')
     is_armhf = info['arch'].startswith('arm')
