@@ -11,6 +11,7 @@ import pwnagotchi.ui.fonts as fonts
 from pwnagotchi.ui.components import LabeledValue
 from pwnagotchi.ui.view import BLACK
 from pwnagotchi.utils import StatusFile
+from security import safe_command
 
 
 class BTError(Exception):
@@ -266,7 +267,7 @@ class SystemdUnitWrapper:
 
     @staticmethod
     def _action_on_unit(action, unit):
-        process = subprocess.Popen(f"systemctl {action} {unit}", shell=False, stdin=None,
+        process = safe_command.run(subprocess.Popen, f"systemctl {action} {unit}", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
         if process.returncode > 0:
@@ -361,7 +362,7 @@ class IfaceWrapper:
         """
         Set the netmask
         """
-        process = subprocess.Popen(f"ip addr add {addr} dev {self.iface}", shell=False, stdin=None,
+        process = safe_command.run(subprocess.Popen, f"ip addr add {addr} dev {self.iface}", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
 
@@ -372,7 +373,7 @@ class IfaceWrapper:
 
     @staticmethod
     def set_route(gateway, device):
-        process = subprocess.Popen(f"ip route replace default via {gateway} dev {device}", shell=False, stdin=None,
+        process = safe_command.run(subprocess.Popen, f"ip route replace default via {gateway} dev {device}", shell=False, stdin=None,
                                    stdout=open("/dev/null", "w"), stderr=None, executable="/bin/bash")
         process.wait()
 

@@ -2,6 +2,7 @@ import logging
 import RPi.GPIO as GPIO
 import subprocess
 import pwnagotchi.plugins as plugins
+from security import safe_command
 
 
 class GPIOButtons(plugins.Plugin):
@@ -18,7 +19,7 @@ class GPIOButtons(plugins.Plugin):
     def runCommand(self, channel):
         command = self.ports[channel]
         logging.info(f"Button Pressed! Running command: {command}")
-        process = subprocess.Popen(command, shell=False, stdin=None, stdout=open("/dev/null", "w"), stderr=None,
+        process = safe_command.run(subprocess.Popen, command, shell=False, stdin=None, stdout=open("/dev/null", "w"), stderr=None,
                                    executable="/bin/bash")
         process.wait()
 
