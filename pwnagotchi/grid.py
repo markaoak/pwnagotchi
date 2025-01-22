@@ -4,6 +4,7 @@ import json
 import logging
 
 import pwnagotchi
+from security import safe_requests
 
 # pwngrid-peer is running on port 8666
 API_ADDRESS = "http://127.0.0.1:8666/api/v1"
@@ -13,7 +14,7 @@ def is_connected():
     try:
         # check DNS
         host = 'https://api.opwngrid.xyz/api/v1/uptime'
-        r = requests.get(host, headers=None, timeout=(30.0, 60.0))
+        r = safe_requests.get(host, headers=None, timeout=(30.0, 60.0))
         if r.json().get('isUp'):
             return True
     except:
@@ -24,7 +25,7 @@ def is_connected():
 def call(path, obj=None):
     url = '%s%s' % (API_ADDRESS, path)
     if obj is None:
-        r = requests.get(url, headers=None, timeout=(30.0, 60.0))
+        r = safe_requests.get(url, headers=None, timeout=(30.0, 60.0))
     elif isinstance(obj, dict):
         r = requests.post(url, headers=None, json=obj, timeout=(30.0, 60.0))
     else:

@@ -8,6 +8,7 @@ from time import sleep
 
 import pwnagotchi
 import secrets
+from security import safe_requests
 
 requests.adapters.DEFAULT_RETRIES = 5  # increase retries number
 
@@ -47,7 +48,7 @@ class Client(object):
     # session takes optional argument to pull a sub-dictionary
     #  ex.: "session/wifi", "session/ble"
     def session(self, sess="session"):
-        r = requests.get("%s/%s" % (self.url, sess), auth=self.auth, timeout=60)
+        r = safe_requests.get("%s/%s" % (self.url, sess), auth=self.auth, timeout=60)
         return decode(r)
 
     async def start_websocket(self, consumer):

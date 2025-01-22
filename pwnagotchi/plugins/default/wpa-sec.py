@@ -6,6 +6,7 @@ from threading import Lock
 from pwnagotchi.utils import StatusFile, remove_whitelisted
 from pwnagotchi import plugins
 from json.decoder import JSONDecodeError
+from security import safe_requests
 
 
 class WpaSec(plugins.Plugin):
@@ -56,7 +57,7 @@ class WpaSec(plugins.Plugin):
 
         cookie = {'key': self.options['api_key']}
         try:
-            result = requests.get(api_url, cookies=cookie, timeout=timeout)
+            result = safe_requests.get(api_url, cookies=cookie, timeout=timeout)
             with open(output, 'wb') as output_file:
                 output_file.write(result.content)
         except requests.exceptions.RequestException as req_e:
