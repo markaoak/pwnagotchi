@@ -14,6 +14,7 @@ from toml.encoder import TomlEncoder, _dump_str
 from zipfile import ZipFile
 from datetime import datetime
 from enum import Enum
+from security import safe_requests
 
 
 class DottedTomlEncoder(TomlEncoder):
@@ -96,8 +97,7 @@ def remove_whitelisted(list_of_handshakes, list_of_whitelisted_strings, valid_on
 
 
 def download_file(url, destination, chunk_size=128):
-    import requests
-    resp = requests.get(url, timeout=60)
+    resp = safe_requests.get(url, timeout=60)
     resp.raise_for_status()
 
     with open(destination, 'wb') as fd:
