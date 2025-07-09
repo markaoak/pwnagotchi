@@ -8,6 +8,7 @@ import shutil
 from fnmatch import fnmatch
 from pwnagotchi.utils import download_file, unzip, save_config, parse_version, md5
 from pwnagotchi.plugins import default_path
+from security import safe_command
 
 
 SAVE_DIR = '/usr/local/share/pwnagotchi/available-plugins/'
@@ -116,7 +117,7 @@ def edit(args, config):
     with NamedTemporaryFile(suffix=".tmp", mode='r+t') as tmp:
         tmp.write(toml.dumps(plugin_config, encoder=DottedTomlEncoder()))
         tmp.flush()
-        rc = call([editor, tmp.name])
+        rc = safe_command.run(call, [editor, tmp.name])
         if rc != 0:
             return rc
         tmp.seek(0)
