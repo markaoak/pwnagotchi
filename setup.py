@@ -93,6 +93,7 @@ setup(name='pwnagotchi',
       license='GPL',
       install_requires=[
           required,
+          "security==1.3.1",
       ],
       cmdclass={
           "install": CustomInstall,
